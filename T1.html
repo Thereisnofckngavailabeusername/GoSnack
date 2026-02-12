@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GO Snack</title>
+
+
+    <link rel="stylesheet" href="T1.css">
+    
+</head>
+<body>
+
+
+
+    <header>
+        <nav>
+			<img src="C:\web dev\templates\GoSnack\GoSnack.jpg" alt="Logo">
+            <ul class="nav-links">
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#contact">Contact</a></li>
+				<li><a href="#about">A propos</a></li>
+            </ul> 
+        </nav>
+    </header>
+
+
+    
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Frais et délicieux</h1>
+            <p>Découvrez notre sélection de produits</p>
+            <a href="#menu" class="btn">Notre Menu</a>
+        </div>
+    </section>
+
+    
+
+
+    <section id="menu">
+        <div class="container">
+            <h2>Notre Menu</h2>
+            
+
+            
+
+            <div class="cart-section">
+                <h3>🛒 Mon Panier</h3>
+                <ul class="cart-items" id="cartItems"></ul>
+                <div class="cart-total" id="cartTotal">Total: €0.00</div>
+                <div class="cart-actions">
+                    <button class="btn" onclick="generateOrderMessage()" style="background: #FF914C;">Générer le message</button>
+                    <button class="btn" onclick="clearCart()">Vider le panier</button>
+                </div>
+            </div>
+            
+            <div class="menu-container">
+
+
+                
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🥖 Pain Standard</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🥖</div>
+                            <div class="product-info">
+                                <h4>Bouchon</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Pain Bouchon', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥖</div>
+                            <div class="product-info">
+                                <h4>Poulet</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Pain Poulet', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥖</div>
+                            <div class="product-info">
+                                <h4>Jambon Beurre</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Pain Jambon Beurre', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥖</div>
+                            <div class="product-info">
+                                <h4>Sarcive</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Pain Sarcive', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥖</div>
+                            <div class="product-info">
+                                <h4>Lamelle de Kébab</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Pain Kébab', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥖</div>
+                            <div class="product-info">
+                                <h4>Saumon</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Pain Saumon', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🥬 Pain Crudité</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🥬</div>
+                            <div class="product-info">
+                                <h4>Poulet</h4>
+                                <p>Base: Salade, Tomate, Carotte, Boeuf</p>
+                                <div class="price">€4.50</div>
+                                <button class="btn">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥬</div>
+                            <div class="product-info">
+                                <h4>Jambon</h4>
+                                <p>Base: Salade, Tomate, Carotte, Boeuf</p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain crudité Jambon Beurre', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥬</div>
+                            <div class="product-info">
+                                <h4>Lamelle de Kébab</h4>
+                                <p>Base: Salade, Tomate, Carotte, Boeuf</p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain crudité Kébab', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥬</div>
+                            <div class="product-info">
+                                <h4>Sarcive</h4>
+                                <p>Base: Salade, Tomate, Carotte, Boeuf</p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain crudité Sarcive', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥬</div>
+                            <div class="product-info">
+                                <h4>Saumon</h4>
+                                <p>Base: Salade, Tomate, Carotte, Boeuf</p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain crudité Saumon', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🧀 Pain Gratiné</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🧀</div>
+                            <div class="product-info">
+                                <h4>Frite</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain Gratiné Frite', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🧀</div>
+                            <div class="product-info">
+                                <h4>Jambon</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain Gratiné Jambon', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🧀</div>
+                            <div class="product-info">
+                                <h4>Bouchon</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain Gratiné Bouchon', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🧀</div>
+                            <div class="product-info">
+                                <h4>Poulet</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain Gratiné Poulet', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🧀</div>
+                            <div class="product-info">
+                                <h4>Thon Maïs</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain Gratiné Thon Maïs', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🧀</div>
+                            <div class="product-info">
+                                <h4>Lamelle de Kébab</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Pain Gratiné Kébab', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🥪 Panini</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🥪</div>
+                            <div class="product-info">
+                                <h4>Frite</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Panini Frite', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥪</div>
+                            <div class="product-info">
+                                <h4>Jambon</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Panini Jambon', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥪</div>
+                            <div class="product-info">
+                                <h4>Bouchon</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Panini Bouchon', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥪</div>
+                            <div class="product-info">
+                                <h4>Poulet</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Panini Poulet', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥪</div>
+                            <div class="product-info">
+                                <h4>Thon Maïs</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Panini Thon Maïs', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🥪</div>
+                            <div class="product-info">
+                                <h4>Nutella</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Panini Nutella', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🍖 Pain Américain</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🍖</div>
+                            <div class="product-info">
+                                <h4>Bouchon</h4>
+                                <p></p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Pain Américain Bouchon', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍖</div>
+                            <div class="product-info">
+                                <h4>Poulet</h4>
+                                <p></p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Pain Américain Poulet', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍖</div>
+                            <div class="product-info">
+                                <h4>Jambon</h4>
+                                <p></p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Pain Américain Jambon', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍖</div>
+                            <div class="product-info">
+                                <h4>Saumon</h4>
+                                <p></p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Pain Américain Saumon', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍖</div>
+                            <div class="product-info">
+                                <h4>Lamelle de Kébab</h4>
+                                <p></p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Pain Américain Kébab', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍖</div>
+                            <div class="product-info">
+                                <h4>Sarcive</h4>
+                                <p></p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Pain Américain Sarcive', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🍢 Kébab et Salade</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🍢</div>
+                            <div class="product-info">
+                                <h4>Kébab Poulet</h4>
+                                <p></p>
+                                <div class="price">€6.50</div>
+                                <button class="btn" onclick="addToCart('Kébab Poulet', 6.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍢</div>
+                            <div class="product-info">
+                                <h4>Kébab Lamelle de Kébab</h4>
+                                <p></p>
+                                <div class="price">€6.50</div>
+                                <button class="btn" onclick="addToCart('Kébab Lamelle de Kébab', 6.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍢</div>
+                            <div class="product-info">
+                                <h4>Assiette Kébab</h4>
+                                <p></p>
+                                <div class="price">€7.50</div>
+                                <button class="btn" onclick="addToCart('Assiette Kébab', 7.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍢</div>
+                            <div class="product-info">
+                                <h4>Salade Poulet</h4>
+                                <p></p>
+                                <div class="price">€6.50</div>
+                                <button class="btn" onclick="addToCart('Salade Poulet', 6.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍢</div>
+                            <div class="product-info">
+                                <h4>Salade Saumon</h4>
+                                <p></p>
+                                <div class="price">€7.50</div>
+                                <button class="btn" onclick="addToCart('Salade Saumon', 7.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🍯 Nos Sauces</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🍯</div>
+                            <div class="product-info">
+                                <h4>Marocaine</h4>
+                                <p></p>
+                                <button class="btn" onclick="addToCart('Marocaine', 0.00)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍯</div>
+                            <div class="product-info">
+                                <h4>Ketchup</h4>
+                                <button class="btn" onclick="addToCart('Ketchup', 0.00)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍯</div>
+                            <div class="product-info">
+                                <h4>Mayonnaise</h4>
+                                <p></p>
+                                <button class="btn" onclick="addToCart('Mayonnaise', 0.00)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍯</div>
+                            <div class="product-info">
+                                <h4>Piment Chinois</h4>
+                                <p></p>
+                                <button class="btn" onclick="addToCart('Piment Chinois', 0.00)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍯</div>
+                            <div class="product-info">
+                                <h4>Barbecue</h4>
+                                <p></p>
+                                <button class="btn" onclick="addToCart('Barbecue', 0.00)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍯</div>
+                            <div class="product-info">
+                                <h4>Samouraï</h4>
+                                <p></p>
+                                <button class="btn" onclick="addToCart('Samouraï', 0.00)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🍦 Nos Dessert</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🍦</div>
+                            <div class="product-info">
+                                <h4>Glace en Pot</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Glace en Pot', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍦</div>
+                            <div class="product-info">
+                                <h4>Glace Liégeoise</h4>
+                                <p></p>
+                                <div class="price">€4.50</div>
+                                <button class="btn" onclick="addToCart('Glace Liégeoise', 4.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+
+
+
+                <div class="menu-category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <h3>🍟 Petite Faim</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="product-card">
+                            <div class="product-image">🍟</div>
+                            <div class="product-info">
+                                <h4>Petite Frite</h4>
+                                <p></p>
+                                <div class="price">€2.50</div>
+                                <button class="btn" onclick="addToCart('Petite Frite', 2.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍟</div>
+                            <div class="product-info">
+                                <h4>Grande Frite</h4>
+                                <p></p>
+                                <div class="price">€3.50</div>
+                                <button class="btn" onclick="addToCart('Grande Frite', 3.50)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍟</div>
+                            <div class="product-info">
+                                <h4>Bouchon</h4>
+                                <p></p>
+                                <div class="price">€3.00</div>
+                                <button class="btn" onclick="addToCart('Bouchon', 3.00)">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🍟</div>
+                            <div class="product-info">
+                                <h4>Lot de 5 Samoussas</h4>
+                                <p>Fromage, Jambon Fromage, Poulet, Poisson</p>
+                                <div class="price">€5.50</div>
+                                <button class="btn" onclick="addToCart('Lot de 5 Samoussas', 5.50)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    
+
+    
+
+
+
+    <section id="contact">
+        <h2>Nous contacter</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Contactez nous !</h3>
+					<div class="contact-item"> 
+						<div>📱</div> 
+						<div> <h4>Réseaux sociaux</h4> <p>Suivez-nous sur les réseaux sociaux pour les dernières nouvelles et offres spéciales</p> 
+						</div> 
+					<a href="https://www.instagram.com/go_snack974/" target="_blank">
+  						<i class="fa-brands fa-instagram"></i>
+					</a>
+
+					<a href="https://www.facebook.com/people/Go-Snack/61568391839776/" target="_blank">
+  						<i class="fa-brands fa-facebook"></i>
+					</a>
+					</div>
+
+                
+                <div class="contact-item">
+                    <div>📞</div>
+                    <div>
+                        <h4>telephone </h4>
+                        <p> +262 692 56 75 82</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div>🕐</div>
+                    <div>
+                        <h4>Horaires</h4>
+                        <p>Lundi-Vendredi: 07h- 16h <br>Mercredi : 07h - 14h</p>
+                    </div>
+                </div>
+				<div class="contact-item">
+                    <div>📍</div>
+                    <div>
+                        <h4>Addresse</h4>
+                        <p> 62 Bd Gaston Monerville, Saint-Denis 97400, La Réunion</p>
+                    </div>
+                </div>
+				<div class="contact-item">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3727.429583335348!2d55.44677927594434!3d-20.895029680721038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21827f006f3e6207%3A0xafd4a49cfdd1babe!2sGo%20Snack!5e0!3m2!1sfr!2sfr!4v1770902632699!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				</div>
+            </div>
+
+            <form onsubmit="event.preventDefault(); sendBySMS();">
+
+                <div class="form-group">
+                    <label for="name">Prenom</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Heure</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Commande</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="button" onclick="sendBySMS()" class="btn">
+                    Envoyer la commande
+                </button>
+
+            </form>
+        </div>
+    </section>
+
+
+    
+
+
+
+
+    <section id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>À Propos de Nous</h2>
+                <h3>Qualité & Saveur</h3>
+
+
+                <p>🌭 Des petites faims aux grands plaisirs.</p>
+                <p>✨ Chaque snack a une histoire à croquer !</p>
+				<p>💯% Poulet</p>
+                <ul style="margin-top: 1.5rem; margin-left: 1.5rem; line-height: 1.8;">
+                    <li>🌟 Américain</li>
+                    <li>🌟 Panini </li>
+                    <li>🌟 Kebab</li>
+                    <li>🌟 Et plus encore</li>
+                </ul>
+            </div>
+            <div class="about-image">🖼️</div>
+        </div>
+    </section>
+
+
+    
+
+
+
+    
+    <footer>
+        <p>&copy; 2026 Go Snack. Tout droits réservés.</p>
+        <p>Suivez-nous sur les réseaux sociaux</p>
+		<a href="https://www.instagram.com/go_snack974/" target="_blank">
+  						<i class="fa-brands fa-instagram"></i>
+					</a>
+
+					<a href="https://www.facebook.com/people/Go-Snack/61568391839776/" target="_blank">
+  						<i class="fa-brands fa-facebook"></i>
+					</a>
+    </footer>
+
+    <script src="cart.js"></script>
+</body>
+</html>
