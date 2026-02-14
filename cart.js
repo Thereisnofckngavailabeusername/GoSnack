@@ -5,21 +5,24 @@
 
 let cart = [];
 
-function addToCart(productName, price) {
-    const existingItem = cart.find(item => item.name === productName);
-    
+function addToCart(productName, price, category) {
+    // store items with category to differentiate Pain / Panini / etc.
+    const existingItem = cart.find(item => item.name === productName && item.category === (category || ''));
+
     if (existingItem) {
         existingItem.quantity++;
     } else {
         cart.push({
             name: productName,
+            category: category || '',
             price: price,
             quantity: 1
         });
     }
-    
+
     updateCart();
 }
+
 
 function updateCart() {
     const cartItemsElement = document.getElementById('cartItems');
@@ -35,7 +38,7 @@ function updateCart() {
         const li = document.createElement('li');
         li.className = 'cart-item';
         li.innerHTML = `
-            <span class="cart-item-name">${item.name}</span>
+            <span class="cart-item-name">${item.category ? item.category + ' - ' : ''}${item.name}</span>
             <span class="cart-item-price">€${item.price.toFixed(2)} x ${item.quantity}</span>
             <div class="cart-item-quantity">
                 <button onclick="decreaseQuantity(${index})">-</button>
@@ -48,7 +51,19 @@ function updateCart() {
     });
     
     cartTotalElement.textContent = `Total: €${total.toFixed(2)}`;
+    // update header counter
+    updateCounter();
+    // update counters on product cards
+    updateProductCounters();
 }
+
+
+
+function getToButtonGenerate() {
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+}
+
+
 
 function increaseQuantity(index) {
     cart[index].quantity++;
@@ -73,6 +88,96 @@ function clearCart() {
     cart = [];
     updateCart();
     document.getElementById('message').value = '';
+}
+
+// update small header counter showing total items
+function updateCounter() {
+    const counterEl = document.getElementById('cartCount');
+    if (!counterEl) return;
+    const totalItems = cart.reduce((s, it) => s + (it.quantity || 0), 0);
+    counterEl.textContent = totalItems;
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        badge.classList.add('badge-pop');
+        setTimeout(() => badge.classList.remove('badge-pop'), 350);
+    }
+}
+
+// visual feedback on "Ajouter" clicks (small button flash)
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const txt = (btn.textContent || '').trim().toLowerCase();
+    if (txt.startsWith('ajouter')) {
+        btn.classList.add('btn-added');
+        setTimeout(() => btn.classList.remove('btn-added'), 300);
+            // determine product name, price and category from button dataset or surrounding card
+            let name = btn.getAttribute('data-name');
+            let price = btn.getAttribute('data-price');
+            let category = btn.getAttribute('data-category');
+            const card = btn.closest('.product-card');
+            if (card) {
+                if (!name) {
+                    const h = card.querySelector('h4');
+                    if (h) name = h.textContent.trim();
+                }
+                if (!price) {
+                    const p = card.querySelector('.price');
+                    if (p) {
+                        const raw = p.textContent.replace(/[^0-9.,]/g, '').replace(',', '.');
+                        price = parseFloat(raw) || 0;
+                    }
+                }
+                if (!category) {
+                    const menuCat = card.closest('.menu-category');
+                    if (menuCat) {
+                        const ch = menuCat.querySelector('.category-header h3');
+                        if (ch) category = ch.textContent.trim();
+                    }
+                }
+            }
+            if (name) {
+                addToCart(name, parseFloat(price) || 0, category || '');
+                showToast(`${name} ajouté au panier`);
+            }
+    }
+});
+
+// update product counters shown on each product card
+function updateProductCounters() {
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+        const h = card.querySelector('h4');
+        if (!h) return;
+        const name = h.textContent.trim();
+        let category = '';
+        const menuCat = card.closest('.menu-category');
+        if (menuCat) {
+            const ch = menuCat.querySelector('.category-header h3');
+            if (ch) category = ch.textContent.trim();
+        }
+        const item = cart.find(i => i.name === name && i.category === category);
+        let badge = card.querySelector('.product-counter');
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'product-counter';
+            const info = card.querySelector('.product-info');
+            if (info) info.insertBefore(badge, info.firstChild);
+        }
+        badge.textContent = item ? `x${item.quantity}` : '';
+        badge.style.display = item ? 'inline-block' : 'none';
+    });
+}
+
+// simple toast notification
+function showToast(text) {
+    const t = document.createElement('div');
+    t.className = 'gs-toast';
+    t.textContent = text;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('visible'));
+    setTimeout(() => t.classList.remove('visible'), 1500);
+    setTimeout(() => t.remove(), 1900);
 }
 
 function generateOrderMessage() {
@@ -150,3 +255,10 @@ function toggleCategory(header) {
     items.classList.toggle('open');
     icon.classList.toggle('open');
 }
+
+// initialize counters on load
+document.addEventListener('DOMContentLoaded', function() {
+    updateCart();
+    updateCounter();
+    updateProductCounters();
+});
