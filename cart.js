@@ -4,12 +4,21 @@
 
 
 let cart = [];
+let pendingSandwich = null;
 
-function addToCart(productName, price, category) {
+function isSandwichCategory(category) {
+    // List of sandwich categories that should trigger sauce selection
+    const sandwichCategories = [
+        'Pain Standard', 'Pain Crudité', 'Pain Gratiné', 
+        'Panini', 'Pain Américain', 'Kébab et Salade'
+    ];
+    return sandwichCategories.some(cat => category && category.includes(cat));
+}
 
+function addToCart(productName, price, category, sauce) {
 
-
-    const existingItem = cart.find(item => item.name === productName && item.category === (category || ''));
+    const sauceKey = sauce || '';
+    const existingItem = cart.find(item => item.name === productName && item.category === (category || '') && item.sauce === sauceKey);
 
     if (existingItem) {
         existingItem.quantity++;
@@ -17,6 +26,7 @@ function addToCart(productName, price, category) {
         cart.push({
             name: productName,
             category: category || '',
+            sauce: sauce || '',
             price: price,
             quantity: 1
         });
@@ -39,8 +49,14 @@ function updateCart() {
         
         const li = document.createElement('li');
         li.className = 'cart-item';
+        
+        // Build item label: Category - Product - Sauce
+        let label = item.name;
+        if (item.category) label = item.category + ' - ' + label;
+        if (item.sauce) label = label + ' - ' + item.sauce;
+        
         li.innerHTML = `
-            <span class="cart-item-name">${item.category ? item.category + ' - ' : ''}${item.name}</span>
+            <span class="cart-item-name">${label}</span>
             <span class="cart-item-price">€${item.price.toFixed(2)} x ${item.quantity}</span>
             <div class="cart-item-quantity">
                 <button onclick="decreaseQuantity(${index})">-</button>
@@ -152,8 +168,15 @@ document.addEventListener('click', function(e) {
                 }
             }
             if (name) {
-                addToCart(name, (typeof price === 'number' && !isNaN(price)) ? price : 0, category || '');
-                showToast(`${name} ajouté au panier`);
+                // If it's a sandwich, show sauce selection modal
+                if (isSandwichCategory(category)) {
+                    pendingSandwich = { name, price, category };
+                    openSauceModal();
+                } else {
+                    // For non-sandwiches, add directly to cart
+                    addToCart(name, (typeof price === 'number' && !isNaN(price)) ? price : 0, category || '');
+                    showToast(`${name} ajouté au panier`);
+                }
             }
     }
 });
@@ -171,7 +194,11 @@ function updateProductCounters() {
             const ch = menuCat.querySelector('.category-header h3');
             if (ch) category = ch.textContent.trim();
         }
-        const item = cart.find(i => i.name === name && i.category === category);
+        // Count total quantity for this product (regardless of sauce)
+        const totalQty = cart
+            .filter(i => i.name === name && i.category === category)
+            .reduce((sum, i) => sum + i.quantity, 0);
+        
         let badge = card.querySelector('.product-counter');
         if (!badge) {
             badge = document.createElement('span');
@@ -179,9 +206,75 @@ function updateProductCounters() {
             const info = card.querySelector('.product-info');
             if (info) info.insertBefore(badge, info.firstChild);
         }
-        badge.textContent = item ? `x${item.quantity}` : '';
-        badge.style.display = item ? 'inline-block' : 'none';
+        badge.textContent = totalQty > 0 ? `x${totalQty}` : '';
+        badge.style.display = totalQty > 0 ? 'inline-block' : 'none';
     });
+}
+
+// sauce modal management
+function openSauceModal() {
+    const modal = document.getElementById('sauceModal');
+    const container = document.getElementById('sauceButtons');
+    
+    // Get all sauces from the "Nos Sauces" category
+    const sauceCategory = Array.from(document.querySelectorAll('.menu-category')).find(cat => {
+        const h = cat.querySelector('.category-header h3');
+        return h && h.textContent.includes('Nos Sauces');
+    });
+    
+    container.innerHTML = '';
+    
+    if (sauceCategory) {
+        const sauceCards = sauceCategory.querySelectorAll('.product-card');
+        sauceCards.forEach(card => {
+            const h4 = card.querySelector('h4');
+            if (h4) {
+                const sauceName = h4.textContent.trim();
+                const btn = document.createElement('button');
+                btn.className = 'sauce-btn';
+                btn.textContent = sauceName;
+                btn.onclick = () => selectSauce(sauceName);
+                container.appendChild(btn);
+            }
+        });
+    }
+    
+    modal.classList.add('active');
+}
+
+function closeSauceModal() {
+    const modal = document.getElementById('sauceModal');
+    modal.classList.remove('active');
+    pendingSandwich = null;
+}
+
+function selectSauce(sauceName) {
+    if (!pendingSandwich) return;
+    
+    // Add the sandwich with sauce
+    addToCart(
+        pendingSandwich.name, 
+        pendingSandwich.price, 
+        pendingSandwich.category,
+        sauceName
+    );
+    
+    showToast(`${pendingSandwich.name} + ${sauceName} ajoutés au panier`);
+    closeSauceModal();
+}
+
+function skipSauce() {
+    if (!pendingSandwich) return;
+    
+    addToCart(
+        pendingSandwich.name, 
+        pendingSandwich.price, 
+        pendingSandwich.category,
+        ''
+    );
+    
+    showToast(`${pendingSandwich.name} ajouté au panier (sans sauce)`);
+    closeSauceModal();
 }
 
 
@@ -206,7 +299,12 @@ function generateOrderMessage() {
     
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
-        const label = item.category ? `${item.category} - ${item.name}` : item.name;
+        
+        // Build item label: Category - Product - Sauce
+        let label = item.name;
+        if (item.category) label = item.category + ' - ' + label;
+        if (item.sauce) label = label + ' - ' + item.sauce;
+        
         message += `• ${label} x${item.quantity} = €${itemTotal.toFixed(2)}\n`;
         total += itemTotal;
     });
@@ -219,11 +317,7 @@ function generateOrderMessage() {
 
     document.getElementById('message').value = message;
     
-
-    
-
-
-    document.getElementById('commande').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
 }
 
 function sendBySMS() {
@@ -277,4 +371,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCart();
     updateCounter();
     updateProductCounters();
+    
+    // Close modal on background click
+    const modal = document.getElementById('sauceModal');
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeSauceModal();
+        }
+    });
 });

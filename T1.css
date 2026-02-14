@@ -114,6 +114,87 @@ nav {
 }
 .gs-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* sauce modal */
+.sauce-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 220ms ease;
+}
+.sauce-modal.active {
+    display: flex;
+    opacity: 1;
+}
+.sauce-modal-content {
+    background: white;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90vw;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.sauce-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+.sauce-modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: auto;
+    height: auto;
+}
+.close-modal:hover {
+    color: #000;
+}
+.sauce-modal-body {
+    padding: 1.5rem;
+}
+.sauce-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+.sauce-btn {
+    padding: 0.8rem;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 200ms ease;
+}
+.sauce-btn:hover {
+    border-color: #FF914C;
+    background: #fff9f5;
+}
+.sauce-btn.selected {
+    border-color: #FF914C;
+    background: #FF914C;
+    color: white;
+}
+
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(255,145,76,1), rgba(29,14,241,0.685)), url('https://images.unsplash.com/photo-1555939594-58d7cb561b1b?w=1200') center/cover no-repeat;
@@ -665,8 +746,22 @@ footer {
     .product-info h4 {
         font-size: 0.85rem;
     }
+    /* Show product counter on mobile */
+    .product-counter {
+        display: inline-block !important;
+        padding: 1px 6px;
+        font-size: 0.75rem;
+    }
     .product-info p {
         font-size: 0.75rem;
+    }
+    /* Sauce modal on mobile */
+    .sauce-buttons {
+        grid-template-columns: 1fr;
+    }
+    .sauce-btn {
+        padding: 0.7rem;
+        font-size: 0.85rem;
     }
     .price {
         font-size: 0.9rem;
@@ -705,6 +800,15 @@ footer {
     }
     .contact-item p {
         font-size: 0.8rem;
+    }
+    /* Ensure cart badge is visible */
+    #cartBadge {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+        padding: 8px 12px;
+        font-size: 0.85rem;
     }
     iframe {
         height: 250px !important;
