@@ -199,7 +199,8 @@ function generateOrderMessage() {
     
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
-        message += `• ${item.name} x${item.quantity} = €${itemTotal.toFixed(2)}\n`;
+        const label = item.category ? `${item.category} - ${item.name}` : item.name;
+        message += `• ${label} x${item.quantity} = €${itemTotal.toFixed(2)}\n`;
         total += itemTotal;
     });
     
