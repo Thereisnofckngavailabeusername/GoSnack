@@ -6,7 +6,9 @@
 let cart = [];
 
 function addToCart(productName, price, category) {
-    // store items with category to differentiate Pain / Panini / etc.
+
+
+
     const existingItem = cart.find(item => item.name === productName && item.category === (category || ''));
 
     if (existingItem) {
@@ -51,9 +53,11 @@ function updateCart() {
     });
     
     cartTotalElement.textContent = `Total: €${total.toFixed(2)}`;
-    // update header counter
+
+
     updateCounter();
-    // update counters on product cards
+
+
     updateProductCounters();
 }
 
@@ -90,7 +94,8 @@ function clearCart() {
     document.getElementById('message').value = '';
 }
 
-// update small header counter showing total items
+
+
 function updateCounter() {
     const counterEl = document.getElementById('cartCount');
     if (!counterEl) return;
@@ -103,7 +108,8 @@ function updateCounter() {
     }
 }
 
-// visual feedback on "Ajouter" clicks (small button flash)
+
+
 document.addEventListener('click', function(e) {
     const btn = e.target.closest('button');
     if (!btn) return;
@@ -111,7 +117,8 @@ document.addEventListener('click', function(e) {
     if (txt.startsWith('ajouter')) {
         btn.classList.add('btn-added');
         setTimeout(() => btn.classList.remove('btn-added'), 300);
-            // determine product name, price and category from button dataset or surrounding card
+
+        
             let name = btn.getAttribute('data-name');
             let price;
             let category = btn.getAttribute('data-category');
@@ -121,14 +128,14 @@ document.addEventListener('click', function(e) {
                     const h = card.querySelector('h4');
                     if (h) name = h.textContent.trim();
                 }
-                // Prefer the visually displayed price (.price) when present
+
                 const p = card.querySelector('.price');
                 if (p) {
                     const raw = p.textContent.replace(/[^0-9.,]/g, '').replace(',', '.');
                     const n = parseFloat(raw);
                     if (!isNaN(n)) price = n;
                 }
-                // fallback to button data-price attribute when no .price found or it's invalid
+
                 if ((price === undefined || isNaN(price))) {
                     const dp = btn.getAttribute('data-price');
                     if (dp !== null) {
@@ -151,7 +158,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// update product counters shown on each product card
+
 function updateProductCounters() {
     const cards = document.querySelectorAll('.product-card');
     cards.forEach(card => {
@@ -177,7 +184,7 @@ function updateProductCounters() {
     });
 }
 
-// simple toast notification
+
 function showToast(text) {
     const t = document.createElement('div');
     t.className = 'gs-toast';
@@ -204,7 +211,7 @@ function generateOrderMessage() {
         total += itemTotal;
     });
     
-    message += `\nTotal: €${total.toFixed(2)}\n\nMerci!`;
+    message += `\nTotal: €${total.toFixed(2)}\n\nMerci !`;
     
 
     
@@ -216,7 +223,7 @@ function generateOrderMessage() {
     
 
 
-    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('commande').scrollIntoView({ behavior: 'smooth' });
 }
 
 function sendBySMS() {
