@@ -391,6 +391,25 @@ section h2 {
     min-height: 120px;
 }
 
+/* Checkbox group for "remember me" */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin: 0.8rem 0;
+}
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
 /* Cart Section */
 .cart-section {
     background: #f0f0f0;

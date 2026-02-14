@@ -343,6 +343,14 @@ function sendBySMS() {
     }
     
 
+    const rememberCheckbox = document.getElementById('remember');
+    if (rememberCheckbox && rememberCheckbox.checked) {
+        localStorage.setItem('gosnack_name', nameInput);
+    } else {
+        localStorage.removeItem('gosnack_name');
+    }
+    
+
     
 
 
@@ -385,9 +393,15 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCounter();
     updateProductCounters();
     
-
-
-
+    // Load saved name from localStorage if available
+    const savedName = localStorage.getItem('gosnack_name');
+    if (savedName) {
+        const nameInput = document.getElementById('name');
+        if (nameInput) {
+            nameInput.value = savedName;
+        }
+    }
+    
     const modal = document.getElementById('sauceModal');
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
