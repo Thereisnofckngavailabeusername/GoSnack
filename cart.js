@@ -7,7 +7,8 @@ let cart = [];
 let pendingSandwich = null;
 
 function isSandwichCategory(category) {
-    // List of sandwich categories that should trigger sauce selection
+
+
     const sandwichCategories = [
         'Pain Standard', 'Pain Crudité', 'Pain Gratiné', 
         'Panini', 'Pain Américain', 'Kébab et Salade'
@@ -50,7 +51,9 @@ function updateCart() {
         const li = document.createElement('li');
         li.className = 'cart-item';
         
-        // Build item label: Category - Product - Sauce
+
+
+
         let label = item.name;
         if (item.category) label = item.category + ' - ' + label;
         if (item.sauce) label = label + ' - ' + item.sauce;
@@ -168,12 +171,13 @@ document.addEventListener('click', function(e) {
                 }
             }
             if (name) {
-                // If it's a sandwich, show sauce selection modal
+  
+
                 if (isSandwichCategory(category)) {
                     pendingSandwich = { name, price, category };
                     openSauceModal();
                 } else {
-                    // For non-sandwiches, add directly to cart
+
                     addToCart(name, (typeof price === 'number' && !isNaN(price)) ? price : 0, category || '');
                     showToast(`${name} ajouté au panier`);
                 }
@@ -194,7 +198,8 @@ function updateProductCounters() {
             const ch = menuCat.querySelector('.category-header h3');
             if (ch) category = ch.textContent.trim();
         }
-        // Count total quantity for this product (regardless of sauce)
+
+
         const totalQty = cart
             .filter(i => i.name === name && i.category === category)
             .reduce((sum, i) => sum + i.quantity, 0);
@@ -211,12 +216,15 @@ function updateProductCounters() {
     });
 }
 
-// sauce modal management
+
+
 function openSauceModal() {
     const modal = document.getElementById('sauceModal');
     const container = document.getElementById('sauceButtons');
     
-    // Get all sauces from the "Nos Sauces" category
+
+
+
     const sauceCategory = Array.from(document.querySelectorAll('.menu-category')).find(cat => {
         const h = cat.querySelector('.category-header h3');
         return h && h.textContent.includes('Nos Sauces');
@@ -251,7 +259,9 @@ function closeSauceModal() {
 function selectSauce(sauceName) {
     if (!pendingSandwich) return;
     
-    // Add the sandwich with sauce
+
+
+
     addToCart(
         pendingSandwich.name, 
         pendingSandwich.price, 
@@ -300,7 +310,9 @@ function generateOrderMessage() {
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         
-        // Build item label: Category - Product - Sauce
+
+
+
         let label = item.name;
         if (item.category) label = item.category + ' - ' + label;
         if (item.sauce) label = label + ' - ' + item.sauce;
@@ -317,7 +329,7 @@ function generateOrderMessage() {
 
     document.getElementById('message').value = message;
     
-    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('commande').scrollIntoView({ behavior: 'smooth' });
 }
 
 function sendBySMS() {
@@ -366,13 +378,16 @@ function toggleCategory(header) {
     icon.classList.toggle('open');
 }
 
-// initialize counters on load
+
+
 document.addEventListener('DOMContentLoaded', function() {
     updateCart();
     updateCounter();
     updateProductCounters();
     
-    // Close modal on background click
+
+
+
     const modal = document.getElementById('sauceModal');
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
