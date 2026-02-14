@@ -113,7 +113,7 @@ document.addEventListener('click', function(e) {
         setTimeout(() => btn.classList.remove('btn-added'), 300);
             // determine product name, price and category from button dataset or surrounding card
             let name = btn.getAttribute('data-name');
-            let price = btn.getAttribute('data-price');
+            let price;
             let category = btn.getAttribute('data-category');
             const card = btn.closest('.product-card');
             if (card) {
@@ -121,11 +121,19 @@ document.addEventListener('click', function(e) {
                     const h = card.querySelector('h4');
                     if (h) name = h.textContent.trim();
                 }
-                if (!price) {
-                    const p = card.querySelector('.price');
-                    if (p) {
-                        const raw = p.textContent.replace(/[^0-9.,]/g, '').replace(',', '.');
-                        price = parseFloat(raw) || 0;
+                // Prefer the visually displayed price (.price) when present
+                const p = card.querySelector('.price');
+                if (p) {
+                    const raw = p.textContent.replace(/[^0-9.,]/g, '').replace(',', '.');
+                    const n = parseFloat(raw);
+                    if (!isNaN(n)) price = n;
+                }
+                // fallback to button data-price attribute when no .price found or it's invalid
+                if ((price === undefined || isNaN(price))) {
+                    const dp = btn.getAttribute('data-price');
+                    if (dp !== null) {
+                        const n2 = parseFloat(String(dp).replace(',', '.'));
+                        price = isNaN(n2) ? 0 : n2;
                     }
                 }
                 if (!category) {
@@ -137,7 +145,7 @@ document.addEventListener('click', function(e) {
                 }
             }
             if (name) {
-                addToCart(name, parseFloat(price) || 0, category || '');
+                addToCart(name, (typeof price === 'number' && !isNaN(price)) ? price : 0, category || '');
                 showToast(`${name} ajouté au panier`);
             }
     }
